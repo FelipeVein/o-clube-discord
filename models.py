@@ -2,7 +2,7 @@ from os import getenv
 
 import arrow
 
-from sqlalchemy import BigInteger, Boolean, Column, String, create_engine
+from sqlalchemy import BigInteger, Boolean, Column, String, create_engine, Integer
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.sql.sqltypes import Boolean, Date
@@ -54,6 +54,20 @@ class Package(Base):
     tag = Column(String)
     latest_message_id = Column(BigInteger)
     last_update = Column(ArrowType, default=arrow.now('America/Sao_Paulo'))
+
+class Messages(Base):
+    __tablename__ = "messages"
+    id = Column(Integer, primary_key=True)
+    sender_id = Column(BigInteger)
+    sender_name = Column(String)
+    user_id = Column(BigInteger)
+    user_name = Column(String)
+    text = Column(String)
+    image_path = Column(String)
+    created_at = Column(ArrowType, default=arrow.now('America/Sao_Paulo'))
+    has_image = Column(Boolean, nullable=False)
+    has_url = Column(Boolean, nullable=False)
+
 
 
 Base.metadata.create_all(engine)
